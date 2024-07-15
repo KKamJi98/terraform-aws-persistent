@@ -36,10 +36,6 @@ resource "null_resource" "set_passwords" {
 }
 
 resource "null_resource" "delete_login_profiles" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
