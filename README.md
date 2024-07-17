@@ -1,1 +1,1 @@
-# terraform-aws-usergroup-membership
+# terraform-aws-iam-group-membership
