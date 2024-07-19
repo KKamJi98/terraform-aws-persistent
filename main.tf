@@ -1,4 +1,4 @@
-# SSM Parameter Store에서 비밀번호를 가져옴
+# IAM User, User Group 생성
 data "aws_ssm_parameter" "user_password" {
   name            = "exam_master_iam_user_password"
   with_decryption = true
@@ -20,7 +20,7 @@ module "infra_group" {
   user_path       = "/s5t1/infra/"
 }
 
-# AWS CLI를 사용하여 비밀번호를 설정하는 null_resource
+# AWS CLI를 사용하여 ssm에 저장되어있는 비밀번호를 설정
 resource "null_resource" "set_passwords" {
   provisioner "local-exec" {
     command = <<EOT
@@ -46,5 +46,49 @@ resource "null_resource" "delete_login_profiles" {
       aws iam delete-login-profile --user-name ktj || true
       aws iam delete-login-profile --user-name csb || true
     EOT
+  }
+}
+
+# s3 bucket 생성
+module "weasel_images_bucket" {
+  source                      = "./modules/s3-bucket"
+  bucket_name                 = "weasel-images"
+  public_access_block_enabled = true
+  bucket_policy               = "" # 정책 없음
+  enable_website              = false
+  tags = {
+    Project = "weasel"
+  }
+}
+
+module "weasel_frontend_bucket" {
+  source                      = "./modules/s3-bucket"
+  bucket_name                 = "weasel-frontend"
+  public_access_block_enabled = true
+  bucket_policy = jsonencode({
+    "Version": "2008-10-17",
+    "Id": "PolicyForCloudFrontPrivateContent",
+    "Statement": [
+        {
+            "Sid": "AllowCloudFrontServicePrincipal",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::weasel-frontend/*",
+            "Condition": {
+                "StringEquals": {
+                    "AWS:SourceArn": "arn:aws:cloudfront::393035689023:distribution/EBDDD040I1O72"
+                }
+            }
+        }
+    ]
+  })
+  enable_website = true
+  index_document = "index.html"
+  error_document = "error.html"
+  tags = {
+    Project = "weasel"
   }
 }
