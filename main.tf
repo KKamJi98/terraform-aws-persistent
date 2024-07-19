@@ -9,7 +9,7 @@ module "dev_group" {
   group_name      = "dev-group"
   membership_name = "dev-group-membership"
   user_names      = ["ksm", "ysm", "jsc"]
-  user_path       = "/exam-master/dev/"
+  user_path       = "/s5t1/dev/"
 }
 
 module "infra_group" {
@@ -17,7 +17,7 @@ module "infra_group" {
   group_name      = "infra-group"
   membership_name = "infra-group-membership"
   user_names      = ["ktj", "csb", "asm"]
-  user_path       = "/exam-master/infra/"
+  user_path       = "/s5t1/infra/"
 }
 
 # AWS CLI를 사용하여 비밀번호를 설정하는 null_resource
