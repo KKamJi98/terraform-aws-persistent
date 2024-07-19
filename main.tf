@@ -8,7 +8,7 @@ module "dev_group" {
   source          = "./modules/iam_group_membership"
   group_name      = "dev-group"
   membership_name = "dev-group-membership"
-  user_names      = ["ksm", "usm", "jsc"]
+  user_names      = ["ksm", "ysm", "jsc"]
   user_path       = "/exam-master/dev/"
 }
 
@@ -25,7 +25,7 @@ resource "null_resource" "set_passwords" {
   provisioner "local-exec" {
     command = <<EOT
       aws iam create-login-profile --user-name ksm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name usm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+      aws iam create-login-profile --user-name ysm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
       aws iam create-login-profile --user-name jsc --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
       aws iam create-login-profile --user-name asm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
       aws iam create-login-profile --user-name ktj --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
