@@ -6,34 +6,36 @@ data "aws_ssm_parameter" "user_password" {
 
 module "dev_group" {
   source          = "./modules/iam_group_membership"
-  group_name      = "dev-group"
-  membership_name = "dev-group-membership"
+  group_name      = "weasel-dev-group"
+  membership_name = "weasel-dev-group-membership"
   user_names      = ["ksm", "ysm", "jsc"]
-  user_path       = "/s5t1/dev/"
+  user_path       = "/weasel/dev/"
+  pgp_key         = var.pgp_key
 }
 
 module "infra_group" {
   source          = "./modules/iam_group_membership"
-  group_name      = "infra-group"
-  membership_name = "infra-group-membership"
+  group_name      = "weasel-infra-group"
+  membership_name = "weasel-infra-group-membership"
   user_names      = ["ktj", "csb", "asm"]
-  user_path       = "/s5t1/infra/"
+  user_path       = "/weasel/infra/"
+  pgp_key         = var.pgp_key
 }
 
 # AWS CLI를 사용하여 ssm에 저장되어있는 비밀번호를 설정
-resource "null_resource" "set_passwords" {
-  provisioner "local-exec" {
-    command = <<EOT
-      aws iam create-login-profile --user-name ksm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name ysm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name jsc --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name asm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name ktj --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-      aws iam create-login-profile --user-name csb --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
-    EOT
-  }
-  depends_on = [module.dev_group, module.infra_group]
-}
+# resource "null_resource" "set_passwords" {
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       aws iam create-login-profile --user-name ksm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#       aws iam create-login-profile --user-name ysm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#       aws iam create-login-profile --user-name jsc --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#       aws iam create-login-profile --user-name asm --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#       aws iam create-login-profile --user-name ktj --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#       aws iam create-login-profile --user-name csb --password '${data.aws_ssm_parameter.user_password.value}' --password-reset-required
+#     EOT
+#   }
+#   depends_on = [module.dev_group, module.infra_group]
+# }
 
 resource "null_resource" "delete_login_profiles" {
   provisioner "local-exec" {
@@ -66,23 +68,23 @@ module "weasel_frontend_bucket" {
   bucket_name                 = "weasel-frontend"
   public_access_block_enabled = true
   bucket_policy = jsonencode({
-    "Version": "2008-10-17",
-    "Id": "PolicyForCloudFrontPrivateContent",
-    "Statement": [
-        {
-            "Sid": "AllowCloudFrontServicePrincipal",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "cloudfront.amazonaws.com"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::weasel-frontend/*",
-            "Condition": {
-                "StringEquals": {
-                    "AWS:SourceArn": "arn:aws:cloudfront::393035689023:distribution/EBDDD040I1O72"
-                }
-            }
+    "Version" : "2008-10-17",
+    "Id" : "PolicyForCloudFrontPrivateContent",
+    "Statement" : [
+      {
+        "Sid" : "AllowCloudFrontServicePrincipal",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudfront.amazonaws.com"
+        },
+        "Action" : "s3:GetObject",
+        "Resource" : "arn:aws:s3:::weasel-frontend/*",
+        "Condition" : {
+          "StringEquals" : {
+            "AWS:SourceArn" : "arn:aws:cloudfront::393035689023:distribution/EBDDD040I1O72"
+          }
         }
+      }
     ]
   })
   enable_website = true
