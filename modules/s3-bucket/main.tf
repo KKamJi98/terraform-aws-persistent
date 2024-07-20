@@ -23,7 +23,7 @@ resource "aws_s3_bucket_policy" "example" {
 }
 
 resource "aws_s3_bucket_website_configuration" "example" {
-  count  = var.enable_website ? 1 : 0
+  count = var.enable_website ? 1 : 0
 
   bucket = aws_s3_bucket.example.id
 
