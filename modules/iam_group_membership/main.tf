@@ -30,6 +30,14 @@ resource "aws_iam_user_login_profile" "example" {
   user                    = each.key
   pgp_key                 = var.pgp_key
   password_reset_required = true
+
+  # 지속적으로 비밀번호가 초기화 되는 것을 무효화
+  lifecycle {
+    ignore_changes = [
+      pgp_key,
+      password_reset_required
+    ]
+  }
 }
 
 locals {

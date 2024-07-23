@@ -1,3 +1,19 @@
+# network 생성
+module "network" {
+  source                  = "./modules/network"
+  vpc_availability_zones  = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  name                    = "weasel"
+  vpc_cidr                = "10.10.0.0/16"
+  vpc_name                = "weasel-vpc"
+  public_subnet_suffix    = "weasel-public-subnet"
+  public_subnets_cidr     = ["10.10.100.0/24", "10.10.110.0/24", "10.10.120.0/24"]
+  private_subnet_suffix   = "weasel-private-subnet"
+  private_subnets_cidr    = ["10.10.200.0/24", "10.10.210.0/24", "10.10.220.0/24"]
+  map_public_ip_on_launch = true
+  enable_dns_support      = true
+  enable_dns_hostnames    = true
+}
+
 # IAM User, User Group 생성
 data "aws_ssm_parameter" "user_password" {
   name            = "exam_master_iam_user_password"
