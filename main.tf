@@ -14,12 +14,12 @@ module "network" {
   enable_dns_hostnames    = true
 }
 
-# IAM User, User Group 생성
-data "aws_ssm_parameter" "user_password" {
-  name            = "exam_master_iam_user_password"
-  with_decryption = true
-}
+# data "aws_ssm_parameter" "user_password" {
+#   name            = "exam_master_iam_user_password"
+#   with_decryption = true
+# }
 
+# IAM User, User Group 생성
 module "dev_group" {
   source          = "./modules/iam_group_membership"
   group_name      = "weasel-dev-group"
