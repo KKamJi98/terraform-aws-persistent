@@ -27,5 +27,5 @@ variable "pgp_key" {
 
 variable "policy_file" {
   type        = string
-  description = "Path to JSON plicy file"
+  description = "Path to JSON policy file"
 }
