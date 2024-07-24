@@ -110,3 +110,8 @@ module "weasel_frontend_bucket" {
     Project = "weasel"
   }
 }
+
+module "weasel_backend_ecr" {
+  source = "./modules/ecr"
+  name   = "weasel-backend"
+}
