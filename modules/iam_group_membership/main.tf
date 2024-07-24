@@ -19,10 +19,23 @@ resource "aws_iam_group_membership" "example" {
   group = aws_iam_group.example.name
 }
 
-resource "aws_iam_policy_attachment" "example" {
-  name       = "${var.group_name}-admin-policy-attachment"
-  groups     = [aws_iam_group.example.name]
-  policy_arn = "arn:aws:iam::393035689023:policy/exam-master-user-policy"
+# resource "aws_iam_policy_attachment" "example" {
+#   name       = "${var.group_name}-admin-policy-attachment"
+#   groups     = [aws_iam_group.example.name]
+#   policy_arn = "arn:aws:iam::393035689023:policy/exam-master-user-policy"
+
+#   lifecycle {
+#     ignore_changes = [
+#       policy_arn,
+#       groups
+#     ]
+#   }
+# }
+
+resource "aws_iam_group_policy" "inline_policy" {
+  name   = "inline-policy"
+  group  = aws_iam_group.example.name
+  policy = file(var.policy_file)
 }
 
 resource "aws_iam_user_login_profile" "example" {

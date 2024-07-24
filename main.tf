@@ -27,6 +27,7 @@ module "dev_group" {
   user_names      = ["ksm", "ysm", "jsc"]
   user_path       = "/weasel/dev/"
   pgp_key         = var.pgp_key
+  policy_file     = "${path.module}/template/dev-policy.json"
 }
 
 module "infra_group" {
@@ -36,6 +37,7 @@ module "infra_group" {
   user_names      = ["ktj", "csb", "asm"]
   user_path       = "/weasel/infra/"
   pgp_key         = var.pgp_key
+  policy_file     = "${path.module}/template/infra-policy.json"
 }
 
 # AWS CLI를 사용하여 ssm에 저장되어있는 비밀번호를 설정

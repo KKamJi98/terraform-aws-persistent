@@ -24,3 +24,8 @@ variable "pgp_key" {
   default     = "keybase:username"
   description = "Provide a base-64 encoded PGP public key, or a keybase username in the form `keybase:username`. Required to encrypt password."
 }
+
+variable "policy_file" {
+  type        = string
+  description = "Path to JSON policy file"
+}
