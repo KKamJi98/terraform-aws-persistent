@@ -1,0 +1,68 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*",
+                "s3:*",
+                "cloudwatch:*",
+                "eks:*",
+                "ecr:*",
+                "apigateway:*",
+                "elasticloadbalancing:*",
+                "autoscaling:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:ChangePassword",
+                "iam:CreateUser",
+                "iam:DeleteUser",
+                "iam:CreateAccessKey",
+                "iam:DeleteAccessKey",
+                "iam:UpdateAccessKey",
+                "iam:CreateLoginProfile",
+                "iam:DeleteLoginProfile",
+                "iam:UpdateLoginProfile",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:UpdateRole",
+                "iam:AttachUserPolicy",
+                "iam:DetachUserPolicy",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:List*",
+                "iam:Get*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "servicecatalog:List*",
+                "servicecatalog:Get*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:List*",
+                "bedrock:Get*",
+                "bedrock:Create*",
+                "bedrock:Delete*",
+                "bedrock:Update*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
