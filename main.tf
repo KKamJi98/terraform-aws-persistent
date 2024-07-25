@@ -14,10 +14,6 @@ module "network" {
   enable_dns_hostnames    = true
 }
 
-# data "aws_ssm_parameter" "user_password" {
-#   name            = "exam_master_iam_user_password"
-#   with_decryption = true
-# }
 
 # IAM User, User Group 생성
 module "dev_group" {
@@ -117,3 +113,64 @@ module "weasel_backend_ecr" {
   source = "./modules/ecr"
   name   = "weasel-backend"
 }
+
+# security group 생성
+module "bastion_security_group" {
+  source                     = "./modules/security_group"
+  security_group_name        = "weasel-bastion-sg"
+  security_group_description = "Security group for the bastion host"
+  vpc_id                     = module.network.vpc_id
+  ingress_rules = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+  egress_rules = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+  # tags = {
+  #   Environment = "development"
+  # }
+}
+
+module "web_security_group" {
+  source                     = "./modules/security_group"
+  security_group_name        = "weasel-web-sg"
+  security_group_description = "Security group for the web"
+  vpc_id                     = module.network.vpc_id
+  ingress_rules = [
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+  egress_rules = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+
+# data "aws_ssm_parameter" "user_password" {
+#   name            = "exam_master_iam_user_password"
+#   with_decryption = true
+# }
