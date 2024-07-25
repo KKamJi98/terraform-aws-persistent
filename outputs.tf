@@ -57,3 +57,11 @@ output "public_route_table_id" {
 output "ecr_name" {
   value = module.weasel_backend_ecr.ecr_name
 }
+
+output "bastion_sg_id" {
+  value = module.bastion_security_group.security_group_id
+}
+
+output "web_sg_id" {
+  value = module.web_security_group.security_group_id
+}
