@@ -11,7 +11,8 @@
                 "ecr:*",
                 "apigateway:*",
                 "elasticloadbalancing:*",
-                "autoscaling:*"
+                "autoscaling:*",
+                "rds:*"
             ],
             "Resource": "*"
         },
@@ -63,6 +64,15 @@
                 "bedrock:Update*"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue"
+            ],
+            "Resource": "*"
         }
     ]
+    
 }

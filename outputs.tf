@@ -58,6 +58,11 @@ output "ecr_name" {
   value = module.weasel_backend_ecr.ecr_name
 }
 
+##########################################################
+# [module]-secyruty_group                       
+##########################################################
+
+
 output "bastion_sg_id" {
   value = module.bastion_security_group.security_group_id
 }
@@ -65,3 +70,11 @@ output "bastion_sg_id" {
 output "web_sg_id" {
   value = module.web_security_group.security_group_id
 }
+
+output "rds_sg_id" {
+  value = module.rds_security_group.security_group_id
+}
+
+##########################################################
+# [module]-rds                     
+##########################################################
