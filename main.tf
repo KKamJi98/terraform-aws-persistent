@@ -170,6 +170,48 @@ module "web_security_group" {
   ]
 }
 
+module "rds_security_group" {
+  source                     = "./modules/security_group"
+  security_group_name        = "weasel-rds-sg"
+  security_group_description = "security group for rds"
+  vpc_id                     = module.network.vpc_id
+  ingress_rules = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+  egress_rules = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+}
+
+# RDS 생성
+module "weasel_rds" {
+  source                 = "./modules/rds"
+  identifier             = "weasel-rds"
+  vpc_security_group_ids = [module.rds_security_group.security_group_id]
+  name                   = "db-subnet-group"
+  subnet_ids             = module.network.private_subnet_ids
+  skip_final_snapshot    = true
+  availability_zone      = "us-east-1a"
+}
+
+
 # data "aws_ssm_parameter" "user_password" {
 #   name            = "exam_master_iam_user_password"
 #   with_decryption = true
