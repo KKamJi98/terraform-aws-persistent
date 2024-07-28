@@ -11,7 +11,7 @@ variable "vpc_security_group_ids" {
 
 
 
-variable "name" {
+variable "subnet_group_name" {
   type        = string
   description = "name for rds db_subnet_group"
 }
@@ -31,3 +31,4 @@ variable "availability_zone" {
   type        = string
   description = "availability_zone for rds"
 }
+

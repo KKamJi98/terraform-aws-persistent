@@ -188,8 +188,8 @@ module "rds_security_group" {
       cidr_blocks = ["0.0.0.0/0"]
     },
     {
-      from_port   = 3306
-      to_port     = 3306
+      from_port   = 53306
+      to_port     = 53306
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
@@ -210,7 +210,7 @@ module "weasel_rds" {
   source                 = "./modules/rds"
   identifier             = "weasel-rds"
   vpc_security_group_ids = [module.rds_security_group.security_group_id]
-  name                   = "db-subnet-group"
+  subnet_group_name      = "db-subnet-group"
   subnet_ids             = module.network.private_subnet_ids
   skip_final_snapshot    = true
   availability_zone      = "us-east-1a"
