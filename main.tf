@@ -114,6 +114,11 @@ module "weasel_backend_ecr" {
   name   = "weasel-backend"
 }
 
+module "weasel_frontend_ecr" {
+  source = "./modules/ecr"
+  name   = "weasel-frontend"
+}
+
 # security group 생성
 module "bastion_security_group" {
   source                     = "./modules/security_group"
