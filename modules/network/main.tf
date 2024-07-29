@@ -44,6 +44,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
     Name = "${var.public_subnet_suffix}-${each.key + 1}"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
@@ -54,6 +55,7 @@ resource "aws_subnet" "private" {
   availability_zone = element(var.vpc_availability_zones, each.key % length(var.vpc_availability_zones))
   tags = {
     Name = "${var.private_subnet_suffix}-${each.key + 1}"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
