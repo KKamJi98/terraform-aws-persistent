@@ -12,7 +12,9 @@
                 "apigateway:*",
                 "elasticloadbalancing:*",
                 "autoscaling:*",
-                "rds:*"
+                "rds:*",
+                "logs:*",
+                "kms:*"
             ],
             "Resource": "*"
         },
