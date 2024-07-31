@@ -66,13 +66,13 @@ variable "enable_dns_hostnames" {
 
 variable "enable_nat_instance" {
   description = "Set to true to enable NAT instance in the VPC."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "nat_instance_network_interface_id" {
   description = "The ID of the network interface to associate with the NAT instance."
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 

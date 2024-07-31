@@ -43,7 +43,7 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.vpc_availability_zones, each.key % length(var.vpc_availability_zones))
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
-    Name = "${var.public_subnet_suffix}-${each.key + 1}"
+    Name                     = "${var.public_subnet_suffix}-${each.key + 1}"
     "kubernetes.io/role/elb" = "1"
   }
 }
@@ -54,7 +54,7 @@ resource "aws_subnet" "private" {
   cidr_block        = each.value
   availability_zone = element(var.vpc_availability_zones, each.key % length(var.vpc_availability_zones))
   tags = {
-    Name = "${var.private_subnet_suffix}-${each.key + 1}"
+    Name                     = "${var.private_subnet_suffix}-${each.key + 1}"
     "kubernetes.io/role/elb" = "1"
   }
 }
@@ -63,8 +63,8 @@ resource "aws_subnet" "private" {
 # EIP
 ###############################################################
 resource "aws_eip" "nat" {
-  count     = var.enable_nat_instance ? 0 : 1
-  domain    = "vpc"
+  count  = var.enable_nat_instance ? 0 : 1
+  domain = "vpc"
 
   depends_on = [aws_internet_gateway.this]
 }
@@ -81,7 +81,7 @@ resource "aws_internet_gateway" "this" {
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 resource "aws_nat_gateway" "this" {
-  count = var.enable_nat_instance ? 0 : 1
+  count         = var.enable_nat_instance ? 0 : 1
   allocation_id = aws_eip.nat[0].id
   subnet_id     = values(aws_subnet.public)[0].id # 첫 번째 퍼블릭 서브넷에 NAT Gateway 생성
 
@@ -121,15 +121,15 @@ resource "aws_route_table" "private" {
   dynamic "route" {
     for_each = var.enable_nat_instance ? [1] : []
     content {
-      cidr_block            = "0.0.0.0/0"
-      network_interface_id  = var.nat_instance_network_interface_id
+      cidr_block           = "0.0.0.0/0"
+      network_interface_id = var.nat_instance_network_interface_id
     }
   }
 
   dynamic "route" {
     for_each = var.enable_nat_instance ? [] : [1]
     content {
-      cidr_block            = "0.0.0.0/0"
+      cidr_block     = "0.0.0.0/0"
       nat_gateway_id = aws_nat_gateway.this[0].id
     }
   }

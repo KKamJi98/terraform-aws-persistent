@@ -1,4 +1,4 @@
 resource "aws_iam_policy" "this" {
-  name = var.name
+  name   = var.name
   policy = var.policy
 }

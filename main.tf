@@ -10,19 +10,19 @@ data "terraform_remote_state" "dynamic" {
 
 # network 생성
 module "network" {
-  source                  = "./modules/network"
-  vpc_availability_zones  = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  name                    = "weasel"
-  vpc_cidr                = "10.10.0.0/16"
-  vpc_name                = "weasel-vpc"
-  public_subnet_suffix    = "weasel-public-subnet"
-  public_subnets_cidr     = ["10.10.100.0/24", "10.10.110.0/24", "10.10.120.0/24"]
-  private_subnet_suffix   = "weasel-private-subnet"
-  private_subnets_cidr    = ["10.10.200.0/24", "10.10.210.0/24", "10.10.220.0/24"]
-  map_public_ip_on_launch = true
-  enable_dns_support      = true
-  enable_dns_hostnames    = true
-  enable_nat_instance     = true
+  source                            = "./modules/network"
+  vpc_availability_zones            = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  name                              = "weasel"
+  vpc_cidr                          = "10.10.0.0/16"
+  vpc_name                          = "weasel-vpc"
+  public_subnet_suffix              = "weasel-public-subnet"
+  public_subnets_cidr               = ["10.10.100.0/24", "10.10.110.0/24", "10.10.120.0/24"]
+  private_subnet_suffix             = "weasel-private-subnet"
+  private_subnets_cidr              = ["10.10.200.0/24", "10.10.210.0/24", "10.10.220.0/24"]
+  map_public_ip_on_launch           = true
+  enable_dns_support                = true
+  enable_dns_hostnames              = true
+  enable_nat_instance               = true
   nat_instance_network_interface_id = data.terraform_remote_state.dynamic.outputs.bastion_host_network_interface_id
 }
 
@@ -143,6 +143,12 @@ module "bastion_security_group" {
       to_port     = 22
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = [module.network.vpc_cidr]
     }
   ]
   egress_rules = [
