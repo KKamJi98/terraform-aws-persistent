@@ -1,3 +1,13 @@
+data "terraform_remote_state" "dynamic" {
+  backend = "s3"
+
+  config = {
+    bucket = "terraform-state-weasel"
+    key    = "dynamic/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 # network 생성
 module "network" {
   source                  = "./modules/network"
@@ -12,6 +22,8 @@ module "network" {
   map_public_ip_on_launch = true
   enable_dns_support      = true
   enable_dns_hostnames    = true
+  enable_nat_instance     = true
+  nat_instance_network_interface_id = data.terraform_remote_state.dynamic.outputs.bastion_host_network_interface_id
 }
 
 
