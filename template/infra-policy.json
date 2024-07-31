@@ -14,7 +14,8 @@
                 "autoscaling:*",
                 "rds:*",
                 "logs:*",
-                "kms:*"
+                "kms:*",
+                "cloudfront:*"
             ],
             "Resource": "*"
         },
