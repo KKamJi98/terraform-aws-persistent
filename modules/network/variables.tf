@@ -52,8 +52,6 @@ variable "map_public_ip_on_launch" {
   default     = false
 }
 
-
-
 variable "enable_dns_support" {
   description = "Set to true to enable DNS support for the VPC."
   type        = bool
@@ -65,3 +63,16 @@ variable "enable_dns_hostnames" {
   type        = bool
   default     = true
 }
+
+variable "enable_nat_instance" {
+  description = "Set to true to enable NAT instance in the VPC."
+  type = bool
+  default = false
+}
+
+variable "nat_instance_network_interface_id" {
+  description = "The ID of the network interface to associate with the NAT instance."
+  type = string
+  default = ""
+}
+

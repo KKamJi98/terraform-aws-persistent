@@ -23,10 +23,15 @@ output "internet_gateway_id" {
   value       = aws_internet_gateway.this.id
 }
 
+locals {
+  nat_gateway_id = var.enable_nat_instance ? null : (length(aws_nat_gateway.this) > 0 ? aws_nat_gateway.this[0].id : null)
+}
+
 output "nat_gateway_id" {
   description = "The ID of the NAT Gateway"
-  value       = aws_nat_gateway.this.id
+  value       = local.nat_gateway_id
 }
+
 
 output "public_route_table_id" {
   description = "The ID of the public route table."

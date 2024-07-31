@@ -63,7 +63,8 @@ resource "aws_subnet" "private" {
 # EIP
 ###############################################################
 resource "aws_eip" "nat" {
-  domain = "vpc"
+  count     = var.enable_nat_instance ? 0 : 1
+  domain    = "vpc"
 
   depends_on = [aws_internet_gateway.this]
 }
@@ -80,7 +81,8 @@ resource "aws_internet_gateway" "this" {
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 resource "aws_nat_gateway" "this" {
-  allocation_id = aws_eip.nat.id
+  count = var.enable_nat_instance ? 0 : 1
+  allocation_id = aws_eip.nat[0].id
   subnet_id     = values(aws_subnet.public)[0].id # 첫 번째 퍼블릭 서브넷에 NAT Gateway 생성
 
   tags = {
@@ -110,9 +112,26 @@ resource "aws_route_table" "public" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
 
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.this.id
+  # route {
+  #   cidr_block     = "0.0.0.0/0"
+  #   gateway_id  = var.enable_nat_instance ? null : aws_nat_gateway.this[0].id
+  #   network_interface_id = var.enable_nat_instance ? var.nat_instance_network_interface_id : null
+  # }
+
+  dynamic "route" {
+    for_each = var.enable_nat_instance ? [1] : []
+    content {
+      cidr_block            = "0.0.0.0/0"
+      network_interface_id  = var.nat_instance_network_interface_id
+    }
+  }
+
+  dynamic "route" {
+    for_each = var.enable_nat_instance ? [] : [1]
+    content {
+      cidr_block            = "0.0.0.0/0"
+      nat_gateway_id = aws_nat_gateway.this[0].id
+    }
   }
 
   tags = {
