@@ -32,7 +32,7 @@ module "dev_group" {
   source          = "./modules/iam_group_membership"
   group_name      = "weasel-dev-group"
   membership_name = "weasel-dev-group-membership"
-  user_names      = ["ksm", "ysm", "jsc"]
+  user_names      = ["ksm", "ysm", "jsc", "asm"]
   user_path       = "/weasel/dev/"
   pgp_key         = var.pgp_key
   policy_file     = "${path.module}/template/dev-policy.json"
@@ -42,7 +42,7 @@ module "infra_group" {
   source          = "./modules/iam_group_membership"
   group_name      = "weasel-infra-group"
   membership_name = "weasel-infra-group-membership"
-  user_names      = ["ktj", "csb", "asm"]
+  user_names      = ["ktj", "csb"]
   user_path       = "/weasel/infra/"
   pgp_key         = var.pgp_key
   policy_file     = "${path.module}/template/infra-policy.json"

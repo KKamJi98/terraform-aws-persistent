@@ -62,7 +62,9 @@
                 "bedrock:Get*",
                 "bedrock:Create*",
                 "bedrock:Delete*",
-                "bedrock:Update*"
+                "bedrock:Update*",
+                "bedrock:Invoke*"
+
             ],
             "Resource": "*"
         },
