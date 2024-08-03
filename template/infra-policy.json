@@ -37,7 +37,8 @@
                 "iam:AttachUserPolicy",
                 "iam:DetachUserPolicy",
                 "iam:AttachRolePolicy",
-                "iam:DetachRolePolicy"
+                "iam:DetachRolePolicy",
+                "iam:TagRole"
             ],
             "Resource": "*"
         },
