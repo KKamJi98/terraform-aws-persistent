@@ -18,6 +18,11 @@ output "private_subnet_ids" {
   value       = [for subnet in aws_subnet.private : subnet.id]
 }
 
+output "eip_id" {
+  description = "The ID of the Elastic IP address."
+  value       = aws_eip.nat.id
+}
+
 output "internet_gateway_id" {
   description = "The ID of the Internet Gateway."
   value       = aws_internet_gateway.this.id

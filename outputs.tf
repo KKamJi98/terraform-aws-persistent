@@ -42,6 +42,11 @@ output "private_subnet_ids" {
   value = module.network.private_subnet_ids
 }
 
+output "eip_id" {
+  description = "The ID of the Elastic IP address."
+  value       = module.network.eip_id
+}
+
 output "internet_gateway_id" {
   value = module.network.internet_gateway_id
 }

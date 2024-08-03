@@ -63,7 +63,8 @@ resource "aws_subnet" "private" {
 # EIP
 ###############################################################
 resource "aws_eip" "nat" {
-  count  = var.enable_nat_instance ? 0 : 1
+  # count  = var.enable_nat_instance ? 0 : 1
+  # count  = var.enable_nat_instance
   domain = "vpc"
 
   depends_on = [aws_internet_gateway.this]
@@ -82,7 +83,7 @@ resource "aws_internet_gateway" "this" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway
 resource "aws_nat_gateway" "this" {
   count         = var.enable_nat_instance ? 0 : 1
-  allocation_id = aws_eip.nat[0].id
+  allocation_id = aws_eip.nat.id
   subnet_id     = values(aws_subnet.public)[0].id # 첫 번째 퍼블릭 서브넷에 NAT Gateway 생성
 
   tags = {
