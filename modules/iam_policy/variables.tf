@@ -3,7 +3,7 @@ variable "name" {
   description = "Name of the Policy."
 }
 
-variable "policy" {
+variable "policy_file" {
   type        = string
-  description = "The policy document. This is a JSON formatted string."
+  description = "Path to JSON policy file"
 }

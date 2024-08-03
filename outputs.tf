@@ -27,6 +27,18 @@ output "infra_group_encrypted_passwords" {
 }
 
 ##########################################################
+# [module]-iam_role                                         
+##########################################################
+
+output "bastion_role_arn" {
+  value = module.weasel-bastion-role.role_arn
+}
+
+output "bastion_role_name" {
+  value = module.weasel-bastion-role.role_name
+}
+
+##########################################################
 # [module]-network                                         
 ##########################################################
 

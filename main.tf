@@ -239,3 +239,27 @@ module "weasel_rds" {
 #   name            = "exam_master_iam_user_password"
 #   with_decryption = true
 # }
+
+module "weasel-bastion-role" {
+  source             = "./modules/iam_role"
+  role_name          = "weasel-bastion-role"
+  assume_role_policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  }
+  EOF
+  policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  ]
+  # name   = "weasel-bastion-policy"
+  # policy_file = "${path.module}/template/bastion-policy.json"
+}
