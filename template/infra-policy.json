@@ -78,7 +78,20 @@
                 "secretsmanager:GetSecretValue"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2-instance-connect:SendSSHPublicKey"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeInstanceInformation"
+            ],
+            "Resource": "*"
         }
     ]
-    
 }

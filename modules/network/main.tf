@@ -56,6 +56,7 @@ resource "aws_subnet" "private" {
   tags = {
     Name                     = "${var.private_subnet_suffix}-${each.key + 1}"
     "kubernetes.io/role/elb" = "1"
+    "karpenter.sh/discovery" = "weasel-eks"
   }
 }
 
