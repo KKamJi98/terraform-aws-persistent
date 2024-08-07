@@ -24,7 +24,7 @@ resource "aws_security_group" "this" {
     }
   }
 
-  # tags = {
-  #   Name = var.security_group_name
-  # }
+  tags = {
+    Name = var.security_group_name
+  }
 }

@@ -35,8 +35,8 @@ variable "egress_rules" {
   default = []
 }
 
-# variable "tags" {
-#   description = "Additional tags for the security group"
-#   type        = map(string)
-#   default     = {}
-# }
+variable "tags" {
+  description = "Additional tags for the security group"
+  type        = map(string)
+  default     = {}
+}
