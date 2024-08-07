@@ -89,7 +89,8 @@
         {
             "Effect": "Allow",
             "Action": [
-                "ssm:DescribeInstanceInformation"
+                "ssm:DescribeInstanceInformation",
+                "ssm:GetConnectionStatus"
             ],
             "Resource": "*"
         }
