@@ -12,6 +12,8 @@
 - s3
 - security group
 
+## 파일구조
+
 ```bash
 .
 ├── README.md
