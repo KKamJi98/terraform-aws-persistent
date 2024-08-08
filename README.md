@@ -3,15 +3,16 @@
 > 변동성이 적은 인프라.  
 > NAT_INSTANCE를 사용하기 위해서는 NAT_INSTANCE가 DYNAMIC에 우선 생성되어 있어야 함
 
+- ecr
 - iam user group
-- iam role
 - iam policy
+- iam role
 - network
-- security group
 - rds
 - s3
+- security group
 
-```
+```bash
 .
 ├── README.md
 ├── backend.tf
@@ -52,7 +53,6 @@
 │       └── variables.tf
 ├── outputs.tf
 ├── template
-│   ├── bastion-policy.json
 │   ├── dev-policy.json
 │   └── infra-policy.json
 ├── terraform.tfvars
