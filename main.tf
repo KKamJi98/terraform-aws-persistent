@@ -22,7 +22,7 @@ module "network" {
   map_public_ip_on_launch           = true
   enable_dns_support                = true
   enable_dns_hostnames              = true
-  enable_nat_instance               = true
+  enable_nat_instance               = false
   nat_instance_network_interface_id = data.terraform_remote_state.dynamic.outputs.bastion_host_network_interface_id
 }
 
