@@ -81,8 +81,28 @@ resource "null_resource" "delete_login_profiles" {
 module "weasel_images_bucket" {
   source                      = "./modules/s3-bucket"
   bucket_name                 = "weasel-images"
-  public_access_block_enabled = false
-  bucket_policy               = "" # 정책 없음
+  public_access_block_enabled = true
+  # bucket_policy               = "" # 정책 없음
+  bucket_policy               = jsonencode({
+    "Version" : "2008-10-17",
+    "Id" : "PolicyForCloudFrontPrivateContent",
+    "Statement" : [
+      {
+        "Sid" : "AllowCloudFrontServicePrincipal",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudfront.amazonaws.com"
+        },
+        "Action" : "s3:GetObject",
+        "Resource" : "arn:aws:s3:::weasel-images/*",
+        "Condition" : {
+          "StringEquals" : {
+            "AWS:SourceArn" : "arn:aws:cloudfront::393035689023:distribution/EBDDD040I1O72"
+          }
+        }
+      }
+    ]
+  })
   enable_website              = false
   tags = {
     Project = "weasel"
