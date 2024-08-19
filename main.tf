@@ -81,7 +81,7 @@ resource "null_resource" "delete_login_profiles" {
 module "weasel_images_bucket" {
   source                      = "./modules/s3-bucket"
   bucket_name                 = "weasel-images"
-  public_access_block_enabled = true
+  public_access_block_enabled = false
   bucket_policy               = "" # 정책 없음
   enable_website              = false
   tags = {
