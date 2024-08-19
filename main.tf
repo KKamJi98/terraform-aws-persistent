@@ -145,6 +145,12 @@ module "bastion_security_group" {
       cidr_blocks = ["0.0.0.0/0"]
     },
     {
+      from_port   = 8080
+      to_port     = 8080
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
       from_port   = 0
       to_port     = 0
       protocol    = "-1"

@@ -15,7 +15,8 @@
                 "rds:*",
                 "logs:*",
                 "kms:*",
-                "cloudfront:*"
+                "cloudfront:*",
+                "secretsmanager:*"
             ],
             "Resource": "*"
         },
@@ -68,14 +69,6 @@
                 "bedrock:Delete*",
                 "bedrock:Update*",
                 "bedrock:Invoke*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:GetSecretValue"
             ],
             "Resource": "*"
         },
