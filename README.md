@@ -1,7 +1,8 @@
 # terraform-aws-persistent
 
 > 변동성이 적은 인프라.  
-> NAT_INSTANCE를 사용하기 위해서는 NAT_INSTANCE가 DYNAMIC에 우선 생성되어 있어야 함
+
+<https://github.com/Team-S5T1>
 
 - ecr
 - iam user group
